@@ -10,13 +10,13 @@ export interface IProduct {
 }
 
 export interface IProductsData {
-	_products: IProduct[];
-	_selectedProduct: IProduct;
+	products: IProduct[];
+	selectedProduct: IProduct;
 	events: IEvents;
-	set products(products: IProduct[]);
-	get products(): IProduct[];
-	set selectedProduct(product: IProduct);
-	get selectedProduct(): IProduct;
+	setProducts(products: IProduct[]): void;
+	getProducts(): IProduct[];
+	setProductPreview(product: IProduct): void;
+	getProductPreview(): IProduct;
 }
 
 export interface IUser {

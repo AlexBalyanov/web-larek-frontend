@@ -68,12 +68,13 @@ interface IUser {
 **Интерфейс модели данных продукта**
 ````
 interface IProductsData {
-	_products: IProduct[];
-	_selectedProduct: IProduct;
-	set products(products: IProduct[]);
-	get products(): IProduct[];
-	set selectedProduct(product: IProduct);
-	get selectedProduct(): IProduct;
+	products: IProduct[];
+	selectedProduct: IProduct;
+	events: IEvents;
+	setProducts(products: IProduct[]): void;
+	getProducts(): IProduct[];
+	setPreviewProduct(product: IProduct): void;
+	getPreviewProduct(): IProduct;
 }
 ````
 \
@@ -82,24 +83,26 @@ interface IProductsData {
 interface IUserData {
 	payment: PaymentMethod;
 	email: string;
-	phone: string
+	phone: string;
 	address: string;
+	events: IEvents;
 	setUserData(user: Partial<IUser>): void;
 	getUserData(): IUser;
-	checkUserValidation(): boolean
+	checkUserValidation(): boolean;
 }
 ````
 \
 **Интерфейс модели данных корзины покупок**
 ````
-interface IBasket {
+interface IBasketData {
 	products: IProduct[];
+	events: IEvents;
 	getProductsList(): IProduct[];
 	getProductsCount(): number;
 	getProductsPrice(): number;
 	addToBasket(product: IProduct): void;
 	deleteFromBasket(product: IProduct): void;
-	isProductInBasket(product: IProduct): boolean;
+	isProductInBasket(id: string): boolean;
 }
 ````
 \
@@ -125,7 +128,7 @@ type PaymentMethod = 'cash' | 'online' | '';
 По умолчанию стоит POST метод запроса, который можно изменить, передав третий параметр при вызове.
 
 #### Класс EventEmitter
-Класс реализует брокер событий, с помощью которого можно генерировать различные события\,
+Класс реализует брокер событий, с помощью которого можно генерировать различные события\
 в слоях приложения, подписываться на них и выполнять нужные действия. Основные методы\
 описаны в интерфейсе IEvents:
 - `on` - подписка на событие по его имени;
@@ -142,10 +145,10 @@ type PaymentMethod = 'cash' | 'online' | '';
 - `events: IEvents` - экземпляр класса EventEmitter для генерации событий при изменении данных.
 
 Методы класса:
-- сеттер и геттер `products` - предоставляют возможность сохранить или получить\
-массив товаров соответствующего поля;
-- сеттер и геттер `selectedProduct` - предоставляют возможность сохранить или получить\
-выбранный товар соответствующего поля.
+- `setProducts(products: IProduct[]): void` - сохраняет массив товаров в соответствующее поле;
+- `getProducts(): IProduct[]` - возвращает массив товаров;
+- `setProductPreview(product: IProduct): void` - сохраняет выбранный товар в соответствующее поле;
+- `getProductPreview(): IProduct` - возвращает выбранный товар.
 
 #### Класс UserData
 Класс предназначен для хранения и работы с данными покупателя (пользователя).\
@@ -176,3 +179,26 @@ type PaymentMethod = 'cash' | 'online' | '';
 - `deleteFromBasket(product: IProduct): void` - метод удаления товара из корзины;
 - `isProductInBasket(id: string): boolean` - метод, определяющий, есть ли\
 конкретный товар в корзине.
+
+### Слой представления
+
+
+### Слой коммуникации
+
+#### Класс AppApi
+Класс предоставляет методы для работы с сервером веб приложения. В конструкторе\
+принимает экземпляр класса Api.
+
+Интерфейс класса:
+````
+interface IApi {
+	baseUrl: string;
+	get<T>(uri: string): Promise<T>;
+	post<T>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
+}
+````
+\
+Данные для выбора метода запроса:
+````
+export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+````
