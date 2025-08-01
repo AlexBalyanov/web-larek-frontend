@@ -48,6 +48,30 @@ export interface IBasketData {
 	isProductInBasket(id: string): boolean;
 }
 
+export interface IHeader {
+	basketButton: HTMLButtonElement;
+	basketCounterElement: HTMLElement;
+	events: IEvents;
+	set counter(value: number);
+}
+
+export interface IGallery {
+	catalogElement: HTMLElement;
+	set catalog(items: HTMLElement[]);
+}
+
+export interface IModal {
+	_content: HTMLElement;
+	closeButton: HTMLButtonElement;
+	events: IEvents;
+	set content(element: HTMLElement);
+	open(): void;
+	close(): void;
+	handleEscUp(): void;
+}
+
+
+
 export interface IApi {
 	baseUrl: string;
 	get<T>(uri: string): Promise<T>;
