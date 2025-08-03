@@ -42,6 +42,7 @@ export interface IBasketData {
 	getProductsPrice(): number;
 	addToBasket(product: IProduct): void;
 	deleteFromBasket(product: IProduct): void;
+	clearBasket(): void;
 	isProductInBasket(id: string): boolean;
 }
 
@@ -65,7 +66,7 @@ export interface IBasket {
 	basketListElement: HTMLElement;
 	orderButton: HTMLButtonElement;
 	totalPriceElement: HTMLElement;
-	set basketList(items: IBasketItem[]);
+	set basketList(item: HTMLElement);
 	set totalPrice(value: number);
 	set valid(value: boolean);
 }
