@@ -141,4 +141,11 @@ export interface IOrderData {
 	items: string[];
 }
 
+export interface IApi {
+	baseUrl: string;
+	get<T>(uri: string): Promise<T>;
+	post<T>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
+}
+
+export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 export type PaymentMethod = 'cash' | 'online' | '';
