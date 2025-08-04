@@ -7,6 +7,14 @@ export const settings = {
 	},
 }
 
+export const categories = {
+	'другое' : 'card__category_other',
+	'софт-скил': 'card__category_soft',
+	'дополнительное' : 'card__category_additional',
+	'кнопка' : 'card__category_button',
+	'хард-скил': 'card__category_hard',
+};
+
 export enum modelEvents {
-	productSaved = 'products:saved',
+	productsSaved = 'products:saved',
 }

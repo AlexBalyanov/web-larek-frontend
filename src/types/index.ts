@@ -10,9 +10,6 @@ export interface IProduct {
 }
 
 export interface IProductsData {
-	products: IProduct[];
-	selectedProduct: IProduct;
-	events: IEvents;
 	setProducts(products: IProduct[]): void;
 	getProducts(): IProduct[];
 	setProductPreview(product: IProduct): void;
@@ -92,16 +89,16 @@ export interface IFormContacts {
 }
 
 export interface IProductItem {
-	titleElement: HTMLElement;
-	priceElement: HTMLElement;
+	// titleElement: HTMLElement;
+	// priceElement: HTMLElement;
 	set title(value: string);
 	set price(value: number | string);
 }
 
 export interface IGalleryItem {
-	previewButton: HTMLButtonElement;
-	categoryElement: HTMLElement;
-	imageElement: HTMLElement;
+	// previewButton: HTMLButtonElement;
+	// categoryElement: HTMLElement;
+	// imageElement: HTMLImageElement;
 	set category(value: string);
 	set image(value: string);
 }
@@ -128,7 +125,6 @@ export interface IHeader {
 }
 
 export interface IGallery {
-	catalogElement: HTMLElement;
 	set catalog(items: HTMLElement[]);
 }
 
