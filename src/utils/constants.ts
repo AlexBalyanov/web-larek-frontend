@@ -7,14 +7,18 @@ export const settings = {
 	},
 }
 
-export const categories = {
-	'другое' : 'card__category_other',
+export const categories: Record<string, string> = {
+	'другое': 'card__category_other',
 	'софт-скил': 'card__category_soft',
-	'дополнительное' : 'card__category_additional',
-	'кнопка' : 'card__category_button',
+	'дополнительное': 'card__category_additional',
+	'кнопка': 'card__category_button',
 	'хард-скил': 'card__category_hard',
 };
 
 export enum modelEvents {
 	productsSaved = 'products:saved',
+}
+
+export enum viewEvents {
+	productOpen = 'product:open',
 }

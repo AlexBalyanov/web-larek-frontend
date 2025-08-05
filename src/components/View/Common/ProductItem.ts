@@ -5,10 +5,10 @@ import { ensureElement } from '../../../utils/utils';
 
 interface IProductItemData {
 	title: string;
-	price: number | string;
+	price: number | null;
 }
 
-export class ProductItem<T> extends Component<T> implements IProductItem {
+export class ProductItem<T> extends Component<T & IProductItemData> implements IProductItem {
 	protected titleElement: HTMLElement;
 	protected priceElement: HTMLElement;
 	protected events: IEvents;
@@ -24,7 +24,7 @@ export class ProductItem<T> extends Component<T> implements IProductItem {
 		this.setText(this.titleElement, value);
 	}
 
-	set price(value: number | string) {
-		this.setText(this.priceElement, value);
+	set price(value: number | null) {
+		this.setText(this.priceElement, value + ' синапсов');
 	}
 }
