@@ -7,7 +7,7 @@ export const settings = {
 	},
 }
 
-export const categories: Record<string, string> = {
+export const categoriesClasses: Record<string, string> = {
 	'другое': 'card__category_other',
 	'софт-скил': 'card__category_soft',
 	'дополнительное': 'card__category_additional',

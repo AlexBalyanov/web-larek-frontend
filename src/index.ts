@@ -1,11 +1,15 @@
 import './scss/styles.scss';
 import { EventEmitter } from './components/base/events';
 import { AppApi } from './components/CommunicationApi/AppApi';
-import { API_URL, CDN_URL, modelEvents } from './utils/constants';
+import {
+	API_URL,
+	categoriesClasses,
+	CDN_URL,
+	modelEvents,
+} from './utils/constants';
 import { ProductsData } from './components/Models/ProductsData';
 import { cloneTemplate, ensureElement } from './utils/utils';
 import { Gallery } from './components/View/Gallery';
-import { ProductItem } from './components/View/Common/ProductItem';
 import { GalleryItem } from './components/View/GalleryItem';
 
 const successTemplate = ensureElement<HTMLTemplateElement>('#success');
@@ -41,7 +45,7 @@ api.getProducts()
 events.on(modelEvents.productsSaved, () => {
 	console.log(productsData.getProducts());
 	const productsArray = productsData.getProducts().map((item) => {
-		const product = new GalleryItem(cloneTemplate(cardCatalogTemplate), events);
+		const product = new GalleryItem(cloneTemplate(cardCatalogTemplate), categoriesClasses ,events);
 		return product.render(item);
 	})
 	galleryContainer.render({catalog: productsArray});
