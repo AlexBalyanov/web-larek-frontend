@@ -44,13 +44,13 @@ export interface IBasketData {
 }
 
 export interface IModal {
-	_content: HTMLElement;
-	closeButton: HTMLButtonElement;
-	events: IEvents;
+	// contentElement: HTMLElement;
+	// closeButton: HTMLButtonElement;
+	// events: IEvents;
 	set content(element: HTMLElement);
 	open(): void;
 	close(): void;
-	handleEscUp(): void;
+	handleEscUp(evt: KeyboardEvent): void;
 }
 
 export interface ISuccess {
@@ -104,10 +104,10 @@ export interface IGalleryItem {
 }
 
 export interface IPreviewItem {
-	toBasketButton: HTMLButtonElement;
-	categoryElement: HTMLElement;
-	descriptionElement: HTMLElement;
-	imageElement: HTMLElement;
+	// toBasketButton: HTMLButtonElement;
+	// categoryElement: HTMLElement;
+	// descriptionElement: HTMLElement;
+	// imageElement: HTMLElement;
 	set category(value: string);
 	set description(value: string);
 	set image(value: string);

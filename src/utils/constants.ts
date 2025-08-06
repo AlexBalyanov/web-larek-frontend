@@ -21,4 +21,6 @@ export enum modelEvents {
 
 export enum viewEvents {
 	productOpen = 'product:open',
+	productClose = 'product:close',
+	productBuy = 'product:buy',
 }

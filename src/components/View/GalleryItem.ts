@@ -25,7 +25,7 @@ export class GalleryItem extends ProductItem<IGalleryItemData> implements IGalle
 		this.imageElement = ensureElement<HTMLImageElement>('.card__image', container);
 
 		this.container.addEventListener('click', () => {
-			events.emit(viewEvents.productOpen);
+			events.emit(viewEvents.productOpen, this);
 		});
 	}
 

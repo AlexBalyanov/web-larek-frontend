@@ -3,6 +3,7 @@
 
 .card {
   @include mixins.flex(column);
+  align-items: flex-start;
   border: 0;
   border-radius: $defaultBorderRadius;
   background-color: $primary;
@@ -41,6 +42,7 @@
   }
 
   &__image {
+    align-self: center;
     height: 390px;
     aspect-ratio: 1;
     margin: 3.75rem;

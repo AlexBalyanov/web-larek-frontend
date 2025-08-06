@@ -5,12 +5,15 @@ import {
 	API_URL,
 	categoriesClasses,
 	CDN_URL,
-	modelEvents,
+	modelEvents, viewEvents,
 } from './utils/constants';
 import { ProductsData } from './components/Models/ProductsData';
 import { cloneTemplate, ensureElement } from './utils/utils';
 import { Gallery } from './components/View/Gallery';
 import { GalleryItem } from './components/View/GalleryItem';
+import { Modal } from './components/View/Common/Modal';
+import { PreviewItem } from './components/View/PreviewItem';
+import { IProduct } from './types';
 
 const successTemplate = ensureElement<HTMLTemplateElement>('#success');
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
@@ -20,6 +23,7 @@ const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
 const orderFormTemplate = ensureElement<HTMLTemplateElement>('#order');
 const contactsFormTemplate = ensureElement<HTMLTemplateElement>('#contacts');
 const galleryContainerElement = ensureElement<HTMLElement>('.gallery');
+const modalElement = ensureElement<HTMLElement>('#modal-container');
 
 const events = new EventEmitter();
 const api = new AppApi(API_URL, CDN_URL);
@@ -27,6 +31,7 @@ const api = new AppApi(API_URL, CDN_URL);
 const productsData = new ProductsData(events);
 
 const galleryContainer = new Gallery(galleryContainerElement, events);
+const modal = new Modal(modalElement, events);
 
 
 events.onAll(({eventName, data}) => {
@@ -49,4 +54,14 @@ events.on(modelEvents.productsSaved, () => {
 		return product.render(item);
 	})
 	galleryContainer.render({catalog: productsArray});
+});
+
+events.on(viewEvents.productOpen, (data: IProduct) => {
+	const previewItem = new PreviewItem(cloneTemplate(cardPreviewTemplate), categoriesClasses, events);
+	const findedProduct = productsData.getProducts().find(item => item.id === data.id);
+	const renderedPreviewItem = previewItem.render(findedProduct);
+	console.log(renderedPreviewItem);
+
+	modal.render({content: renderedPreviewItem});
+	modal.open();
 })
