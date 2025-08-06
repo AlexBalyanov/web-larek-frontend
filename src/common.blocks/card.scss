@@ -3,7 +3,6 @@
 
 .card {
   @include mixins.flex(column);
-  align-items: flex-start;
   border: 0;
   border-radius: $defaultBorderRadius;
   background-color: $primary;

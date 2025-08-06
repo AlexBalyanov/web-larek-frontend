@@ -24,6 +24,7 @@ const orderFormTemplate = ensureElement<HTMLTemplateElement>('#order');
 const contactsFormTemplate = ensureElement<HTMLTemplateElement>('#contacts');
 const galleryContainerElement = ensureElement<HTMLElement>('.gallery');
 const modalElement = ensureElement<HTMLElement>('#modal-container');
+const page = ensureElement('.page__wrapper');
 
 const events = new EventEmitter();
 const api = new AppApi(API_URL, CDN_URL);
@@ -57,11 +58,16 @@ events.on(modelEvents.productsSaved, () => {
 });
 
 events.on(viewEvents.productOpen, (data: IProduct) => {
+	page.classList.add('page__wrapper_locked');
+
 	const previewItem = new PreviewItem(cloneTemplate(cardPreviewTemplate), categoriesClasses, events);
 	const findedProduct = productsData.getProducts().find(item => item.id === data.id);
 	const renderedPreviewItem = previewItem.render(findedProduct);
-	console.log(renderedPreviewItem);
 
 	modal.render({content: renderedPreviewItem});
 	modal.open();
-})
+});
+
+events.on(viewEvents.productClose, () => {
+	page.classList.remove('page__wrapper_locked');
+});

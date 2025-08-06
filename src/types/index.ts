@@ -32,8 +32,8 @@ export interface IUserData {
 }
 
 export interface IBasketData {
-	products: IProduct[];
-	events: IEvents;
+	// products: IProduct[];
+	// events: IEvents;
 	getProductsList(): IProduct[];
 	getProductsCount(): number;
 	getProductsPrice(): number;
