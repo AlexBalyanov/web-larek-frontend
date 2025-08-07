@@ -20,13 +20,11 @@ export class Modal extends Component<IModalData> implements IModal {
 		this.closeButton = ensureElement<HTMLButtonElement>('.modal__close', container);
 
 		this.closeButton.addEventListener('click', () => {
-			events.emit(viewEvents.productClose);
 			this.close()
 		});
 
 		container.addEventListener('mousedown', (evt) => {
 			if (evt.target === evt.currentTarget) {
-				events.emit(viewEvents.productClose);
 				this.close();
 			}
 		});
@@ -46,6 +44,7 @@ export class Modal extends Component<IModalData> implements IModal {
 	close() {
 		this.toggleClass(this.container, 'modal_active');
 		document.removeEventListener('keyup', this.handleEscUp);
+		this.events.emit(viewEvents.productClose);
 	}
 
 	handleEscUp(evt: KeyboardEvent) {

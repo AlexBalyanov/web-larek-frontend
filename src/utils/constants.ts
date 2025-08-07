@@ -17,10 +17,13 @@ export const categoriesClasses: Record<string, string> = {
 
 export enum modelEvents {
 	productsSaved = 'products:saved',
+	basketChanged = 'basket:changed',
 }
 
 export enum viewEvents {
 	productOpen = 'product:open',
 	productClose = 'product:close',
 	productBuy = 'product:buy',
+	basketOrder = 'basket:order',
+	basketOpen = 'basket:open',
 }

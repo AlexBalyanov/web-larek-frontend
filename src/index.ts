@@ -14,6 +14,8 @@ import { GalleryItem } from './components/View/GalleryItem';
 import { Modal } from './components/View/Common/Modal';
 import { PreviewItem } from './components/View/PreviewItem';
 import { IProduct } from './types';
+import { BasketData } from './components/Models/BasketData';
+import { Header } from './components/View/Header';
 
 const successTemplate = ensureElement<HTMLTemplateElement>('#success');
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
@@ -24,13 +26,16 @@ const orderFormTemplate = ensureElement<HTMLTemplateElement>('#order');
 const contactsFormTemplate = ensureElement<HTMLTemplateElement>('#contacts');
 const galleryContainerElement = ensureElement<HTMLElement>('.gallery');
 const modalElement = ensureElement<HTMLElement>('#modal-container');
+const headerElement = ensureElement<HTMLElement>('.header');
 const page = ensureElement('.page__wrapper');
 
 const events = new EventEmitter();
 const api = new AppApi(API_URL, CDN_URL);
 
 const productsData = new ProductsData(events);
+const basketData = new BasketData(events);
 
+const header = new Header(headerElement, events);
 const galleryContainer = new Gallery(galleryContainerElement, events);
 const modal = new Modal(modalElement, events);
 
@@ -49,11 +54,10 @@ api.getProducts()
 	});
 
 events.on(modelEvents.productsSaved, () => {
-	console.log(productsData.getProducts());
 	const productsArray = productsData.getProducts().map((item) => {
-		const product = new GalleryItem(cloneTemplate(cardCatalogTemplate), categoriesClasses ,events);
-		return product.render(item);
-	})
+		const galleryItem = new GalleryItem(cloneTemplate(cardCatalogTemplate), categoriesClasses ,events);
+		return galleryItem.render(item);
+	});
 	galleryContainer.render({catalog: productsArray});
 });
 
@@ -61,8 +65,8 @@ events.on(viewEvents.productOpen, (data: IProduct) => {
 	page.classList.add('page__wrapper_locked');
 
 	const previewItem = new PreviewItem(cloneTemplate(cardPreviewTemplate), categoriesClasses, events);
-	const findedProduct = productsData.getProducts().find(item => item.id === data.id);
-	const renderedPreviewItem = previewItem.render(findedProduct);
+	const foundProduct = productsData.getProducts().find(item => item.id === data.id);
+	const renderedPreviewItem = previewItem.render(foundProduct);
 
 	modal.render({content: renderedPreviewItem});
 	modal.open();
@@ -70,4 +74,13 @@ events.on(viewEvents.productOpen, (data: IProduct) => {
 
 events.on(viewEvents.productClose, () => {
 	page.classList.remove('page__wrapper_locked');
+});
+
+events.on(viewEvents.productBuy, (data: IProduct) => {
+	basketData.addToBasket(data);
+	modal.close();
+});
+
+events.on(modelEvents.basketChanged, (data: IProduct[]) => {
+	header.render({counter: data.length});
 });

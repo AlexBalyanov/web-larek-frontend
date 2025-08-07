@@ -1,8 +1,9 @@
 import { IBasketData, IProduct } from '../../types';
 import { IEvents } from '../base/events';
+import { modelEvents } from '../../utils/constants';
 
 export class BasketData implements IBasketData {
-	protected products: IProduct[];
+	protected products: IProduct[] = [];
 	protected events: IEvents;
 
 	constructor(events: IEvents) {
@@ -24,14 +25,17 @@ export class BasketData implements IBasketData {
 
 	addToBasket(product: IProduct) {
 		this.products.unshift(product);
+		this.events.emit(modelEvents.basketChanged, this.products);
 	}
 
 	deleteFromBasket(product: IProduct) {
 		this.products.filter((item) => item !== product);
+		this.events.emit(modelEvents.basketChanged, this.products);
 	}
 
 	clearBasket() {
 		this.products = [];
+		this.events.emit(modelEvents.basketChanged, this.products);
 	}
 
 	isProductInBasket(id: string) {

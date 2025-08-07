@@ -68,6 +68,12 @@ export interface IBasket {
 	set valid(value: boolean);
 }
 
+export interface IBasketView {
+	// orderButtonElement: HTMLButtonElement;
+	// totalPriceElement: HTMLElement;
+	set valid(value: boolean);
+}
+
 export interface IForm {
 	submitButton: HTMLButtonElement;
 	errorsElement: HTMLElement;
@@ -118,9 +124,9 @@ export interface IBasketItem {
 }
 
 export interface IHeader {
-	basketButton: HTMLButtonElement;
-	basketCounterElement: HTMLElement;
-	events: IEvents;
+	// basketButton: HTMLButtonElement;
+	// basketCounterElement: HTMLElement;
+	// events: IEvents;
 	set counter(value: number);
 }
 
