@@ -26,4 +26,5 @@ export enum viewEvents {
 	productBuy = 'product:buy',
 	basketOrder = 'basket:order',
 	basketOpen = 'basket:open',
+	basketDelete = 'basket:delete',
 }

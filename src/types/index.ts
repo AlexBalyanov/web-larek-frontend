@@ -71,7 +71,9 @@ export interface IBasket {
 export interface IBasketView {
 	// orderButtonElement: HTMLButtonElement;
 	// totalPriceElement: HTMLElement;
+	// contentElement: HTMLElement;
 	set valid(value: boolean);
+	set content(element: HTMLElement);
 }
 
 export interface IForm {
@@ -121,7 +123,7 @@ export interface IPreviewItem {
 }
 
 export interface IBasketItem {
-	deleteButton: HTMLButtonElement;
+	// deleteButton: HTMLButtonElement;
 }
 
 export interface IHeader {

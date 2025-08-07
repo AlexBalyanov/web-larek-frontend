@@ -16,6 +16,8 @@ import { PreviewItem } from './components/View/PreviewItem';
 import { IProduct } from './types';
 import { BasketData } from './components/Models/BasketData';
 import { Header } from './components/View/Header';
+import { Basket } from './components/View/Basket';
+import { BasketItem } from './components/View/BasketItem';
 
 const successTemplate = ensureElement<HTMLTemplateElement>('#success');
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
@@ -85,4 +87,16 @@ events.on(viewEvents.productBuy, (data: IProduct) => {
 
 events.on(modelEvents.basketChanged, (data: IProduct[]) => {
 	header.render({counter: data.length});
+});
+
+events.on(viewEvents.basketOpen, () => {
+	const basket = new Basket(cloneTemplate(basketTemplate), events);
+	const basketItem = new BasketItem(cloneTemplate(cardBasketTemplate), events);
+
+
+	const renderedBasketItem = basketItem.render();
+	const renderedBasket = basket.render({content: renderedBasketItem});
+	
+	modal.render({content: renderedBasket});
+	modal.open();
 });
