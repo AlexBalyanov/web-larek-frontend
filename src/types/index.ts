@@ -117,6 +117,7 @@ export interface IPreviewItem {
 	set category(value: string);
 	set description(value: string);
 	set image(value: string);
+	set isProductInBasket(value: boolean);
 }
 
 export interface IBasketItem {

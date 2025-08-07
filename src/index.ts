@@ -39,7 +39,6 @@ const header = new Header(headerElement, events);
 const galleryContainer = new Gallery(galleryContainerElement, events);
 const modal = new Modal(modalElement, events);
 
-
 events.onAll(({eventName, data}) => {
 	console.log(eventName, data);
 });
@@ -67,6 +66,9 @@ events.on(viewEvents.productOpen, (data: IProduct) => {
 	const previewItem = new PreviewItem(cloneTemplate(cardPreviewTemplate), categoriesClasses, events);
 	const foundProduct = productsData.getProducts().find(item => item.id === data.id);
 	const renderedPreviewItem = previewItem.render(foundProduct);
+
+	const isProductInBasket = basketData.isProductInBasket(data.id);
+	previewItem.render({isProductInBasket: isProductInBasket});
 
 	modal.render({content: renderedPreviewItem});
 	modal.open();

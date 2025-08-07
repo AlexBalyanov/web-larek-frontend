@@ -8,6 +8,7 @@ interface IPreviewItemData {
 	category: string;
 	description: string;
 	image: string;
+	isProductInBasket: boolean;
 }
 
 export class PreviewItem extends ProductItem<IPreviewItemData> implements IPreviewItem {
@@ -44,5 +45,9 @@ export class PreviewItem extends ProductItem<IPreviewItemData> implements IPrevi
 
 	set image(value: string) {
 		this.setImage(this.imageElement, value);
+	}
+
+	set isProductInBasket(value: boolean) {
+		this.toBasketButton.disabled = value;
 	}
 }
