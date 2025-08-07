@@ -73,7 +73,8 @@ export interface IBasketView {
 	// totalPriceElement: HTMLElement;
 	// contentElement: HTMLElement;
 	set valid(value: boolean);
-	set content(element: HTMLElement);
+	set content(element: HTMLElement[]);
+	set totalPrice(value: number);
 }
 
 export interface IForm {

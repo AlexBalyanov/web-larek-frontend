@@ -40,6 +40,7 @@ const basketData = new BasketData(events);
 const header = new Header(headerElement, events);
 const galleryContainer = new Gallery(galleryContainerElement, events);
 const modal = new Modal(modalElement, events);
+const basket = new Basket(cloneTemplate(basketTemplate), events);
 
 events.onAll(({eventName, data}) => {
 	console.log(eventName, data);
@@ -54,6 +55,14 @@ api.getProducts()
 		console.error(err);
 	});
 
+events.on(viewEvents.modalOpen, () => {
+	page.classList.add('page__wrapper_locked');
+});
+
+events.on(viewEvents.modalClose, () => {
+	page.classList.remove('page__wrapper_locked');
+});
+
 events.on(modelEvents.productsSaved, () => {
 	const productsArray = productsData.getProducts().map((item) => {
 		const galleryItem = new GalleryItem(cloneTemplate(cardCatalogTemplate), categoriesClasses ,events);
@@ -63,25 +72,21 @@ events.on(modelEvents.productsSaved, () => {
 });
 
 events.on(viewEvents.productOpen, (data: IProduct) => {
-	page.classList.add('page__wrapper_locked');
-
 	const previewItem = new PreviewItem(cloneTemplate(cardPreviewTemplate), categoriesClasses, events);
 	const foundProduct = productsData.getProducts().find(item => item.id === data.id);
-	const renderedPreviewItem = previewItem.render(foundProduct);
-
 	const isProductInBasket = basketData.isProductInBasket(data.id);
-	previewItem.render({isProductInBasket: isProductInBasket});
+	const renderedPreviewItem = previewItem.render({
+		...foundProduct,
+		isProductInBasket
+	});
 
 	modal.render({content: renderedPreviewItem});
 	modal.open();
 });
 
-events.on(viewEvents.productClose, () => {
-	page.classList.remove('page__wrapper_locked');
-});
-
 events.on(viewEvents.productBuy, (data: IProduct) => {
-	basketData.addToBasket(data);
+	const foundProduct = productsData.getProducts().find(item => item.id === data.id);
+	basketData.addToBasket(foundProduct);
 	modal.close();
 });
 
@@ -90,13 +95,20 @@ events.on(modelEvents.basketChanged, (data: IProduct[]) => {
 });
 
 events.on(viewEvents.basketOpen, () => {
-	const basket = new Basket(cloneTemplate(basketTemplate), events);
-	const basketItem = new BasketItem(cloneTemplate(cardBasketTemplate), events);
+	const basketArray = basketData.getProductsList().map((product) => {
+		const basketItem = new BasketItem(cloneTemplate(cardBasketTemplate), events);
+		return basketItem.render(product);
+	});
 
+	const renderedBasketItem = basket.render({content: basketArray});
 
-	const renderedBasketItem = basketItem.render();
-	const renderedBasket = basket.render({content: renderedBasketItem});
-	
-	modal.render({content: renderedBasket});
+	if (basketData.getProductsList().length === 0) {
+		basket.render({valid: false});
+	} else {
+		const totalPrice = basketData.getProductsPrice();
+		basket.render({totalPrice: totalPrice, valid: true});
+	}
+
+	modal.render({content: renderedBasketItem});
 	modal.open();
 });

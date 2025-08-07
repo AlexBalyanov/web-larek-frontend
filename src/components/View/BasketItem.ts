@@ -5,7 +5,8 @@ import { ProductItem } from './Common/ProductItem';
 import { viewEvents } from '../../utils/constants';
 
 interface IBasketItemData {
-
+	title: string;
+	price: number | null;
 }
 
 export class BasketItem extends ProductItem<IBasketItemData> implements IBasketItem {

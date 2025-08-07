@@ -21,6 +21,8 @@ export enum modelEvents {
 }
 
 export enum viewEvents {
+	modalOpen = 'modal:open',
+	modalClose = 'modal:close',
 	productOpen = 'product:open',
 	productClose = 'product:close',
 	productBuy = 'product:buy',

@@ -39,12 +39,13 @@ export class Modal extends Component<IModalData> implements IModal {
 	open() {
 		this.toggleClass(this.container, 'modal_active');
 		document.addEventListener('keyup', this.handleEscUp);
+		this.events.emit(viewEvents.modalOpen);
 	}
 
 	close() {
 		this.toggleClass(this.container, 'modal_active');
 		document.removeEventListener('keyup', this.handleEscUp);
-		this.events.emit(viewEvents.productClose);
+		this.events.emit(viewEvents.modalClose);
 	}
 
 	handleEscUp(evt: KeyboardEvent) {

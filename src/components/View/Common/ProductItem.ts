@@ -3,12 +3,12 @@ import { Component } from '../../base/Component';
 import { IEvents } from '../../base/events';
 import { ensureElement } from '../../../utils/utils';
 
-interface IProductItemData {
-	title: string;
-	price: number | null;
-}
+// interface IProductItemData {
+// 	title: string;
+// 	price: number | null;
+// }
 
-export class ProductItem<T> extends Component<T & IProductItemData> implements IProductItem {
+export class ProductItem<T> extends Component<T> implements IProductItem {
 	protected titleElement: HTMLElement;
 	protected priceElement: HTMLElement;
 	protected events: IEvents;

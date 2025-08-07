@@ -6,13 +6,14 @@ import { viewEvents } from '../../utils/constants';
 
 interface IBasketViewData {
 	valid: boolean;
-	content: HTMLElement;
+	content: HTMLElement[];
+	totalPrice: number;
 }
 
 export class Basket extends Component<IBasketViewData> implements IBasketView {
+	protected contentElement: HTMLElement;
 	protected orderButtonElement: HTMLButtonElement;
 	protected totalPriceElement: HTMLElement;
-	protected contentElement: HTMLElement;
 	events: IEvents;
 
 	constructor(container: HTMLElement, events: IEvents) {
@@ -31,7 +32,11 @@ export class Basket extends Component<IBasketViewData> implements IBasketView {
 		this.orderButtonElement.disabled = !value;
 	}
 
-	set content(element: HTMLElement) {
-		this.contentElement.replaceChildren(element);
+	set content(items: HTMLElement[]) {
+		this.contentElement.replaceChildren(...items);
+	}
+
+	set totalPrice(value: number) {
+		this.setText(this.totalPriceElement, value);
 	}
 }
