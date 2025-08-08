@@ -18,6 +18,8 @@ import { BasketData } from './components/Models/BasketData';
 import { Header } from './components/View/Header';
 import { Basket } from './components/View/Basket';
 import { BasketItem } from './components/View/BasketItem';
+import { FormOrder } from './components/View/FormOrder';
+import { UserData } from './components/Models/UserData';
 
 const successTemplate = ensureElement<HTMLTemplateElement>('#success');
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
@@ -35,6 +37,7 @@ const events = new EventEmitter();
 const api = new AppApi(API_URL, CDN_URL);
 
 const productsData = new ProductsData(events);
+const userData = new UserData(events);
 const basketData = new BasketData(events);
 
 const header = new Header(headerElement, events);
@@ -116,3 +119,20 @@ events.on(viewEvents.basketOpen, () => {
 	modal.render({content: renderedBasketItem});
 	modal.open();
 });
+
+events.on(viewEvents.basketOrder, () => {
+	const formOrder = new FormOrder(cloneTemplate(orderFormTemplate), events);
+	const renderedFormOrder = formOrder.render();
+	modal.render({content: renderedFormOrder});
+
+	events.on(viewEvents.formOrderOnline, () => {
+		formOrder.render({isOnlineOrCash: true});
+		userData.setUserData({payment: 'online'});
+	});
+
+	events.on(viewEvents.formOrderCash, () => {
+		formOrder.render({isOnlineOrCash: false});
+		userData.setUserData({payment: 'cash'});
+	});
+});
+

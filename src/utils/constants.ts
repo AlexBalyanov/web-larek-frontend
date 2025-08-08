@@ -29,4 +29,6 @@ export enum viewEvents {
 	basketOrder = 'basket:order',
 	basketOpen = 'basket:open',
 	basketDelete = 'basket:delete',
+	formOrderOnline = 'formOrder:online',
+	formOrderCash = 'formOrder:cash',
 }

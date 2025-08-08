@@ -24,9 +24,9 @@ export interface IUser {
 }
 
 export interface IUserData {
-	user: IUser;
-	events: IEvents;
-	setUserData(user: Partial<IUser>): void;
+	// user: IUser;
+	// events: IEvents;
+	setUserData(data: Partial<IUser>): void;
 	getUserData(): IUser;
 	checkUserValidation(): boolean;
 }
@@ -78,18 +78,20 @@ export interface IBasketView {
 }
 
 export interface IForm {
-	submitButton: HTMLButtonElement;
-	errorsElement: HTMLElement;
+	// submitButton: HTMLButtonElement;
+	// errorsElement: HTMLElement;
 	set valid(value: boolean);
 	set errors(value: string);
 }
 
 export interface IFormOrder {
-	cashButton: HTMLButtonElement;
-	onlineButton: HTMLButtonElement;
-	set cash(value: boolean);
-	set online(value: boolean);
+	// cashButton: HTMLButtonElement;
+	// onlineButton: HTMLButtonElement;
+	// addressInputElement: HTMLInputElement;
+	// set cash(value: boolean);
+	// set online(value: boolean);
 	set address(value: string);
+	set isOnlineOrCash(value: boolean);
 }
 
 export interface IFormContacts {
