@@ -25,6 +25,10 @@ export class ProductItem<T> extends Component<T> implements IProductItem {
 	}
 
 	set price(value: number | null) {
-		this.setText(this.priceElement, value + ' синапсов');
+		if (value === null) {
+			this.setText(this.priceElement, 'Бесценно');
+		} else {
+			this.setText(this.priceElement, value + ' синапсов');
+		}
 	}
 }

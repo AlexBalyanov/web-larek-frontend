@@ -77,8 +77,12 @@ events.on(viewEvents.productOpen, (data: IProduct) => {
 	const isProductInBasket = basketData.isProductInBasket(data.id);
 	const renderedPreviewItem = previewItem.render({
 		...foundProduct,
-		isProductInBasket
+		buttonDisable: isProductInBasket,
 	});
+
+	if (foundProduct.price === null) {
+		previewItem.render({buttonDisable: true, buttonText: 'Недоступно'});
+	}
 
 	modal.render({content: renderedPreviewItem});
 	modal.open();
