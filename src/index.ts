@@ -151,8 +151,8 @@ events.on(viewEvents.basketOrder, () => {
 		}
 	});
 
-	events.on(viewEvents.formOrderSubmit, () => {
-
+	events.on(viewEvents.formOrderSubmit, (data: {address: string}) => {
+		userData.setUserData({address: data.address});
 	});
 });
 

@@ -90,7 +90,7 @@ export interface IFormOrder {
 	// addressInputElement: HTMLInputElement;
 	// set cash(value: boolean);
 	// set online(value: boolean);
-	set address(value: string);
+	// set address(value: string);
 	set isOnlineOrCash(value: boolean);
 }
 

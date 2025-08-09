@@ -1,7 +1,7 @@
 import { Component } from '../../base/Component';
 import { IForm } from '../../../types';
 import { IEvents } from '../../base/events';
-import { ensureElement } from '../../../utils/utils';
+import { ensureAllElements, ensureElement } from '../../../utils/utils';
 import { viewEvents } from '../../../utils/constants';
 
 interface IFormData {
@@ -14,11 +14,13 @@ export class Form<T> extends Component<T & IFormData> implements IForm {
 	protected errorsElement: HTMLElement;
 	protected submitButton: HTMLButtonElement;
 	protected events: IEvents;
+	protected inputs: NodeListOf<HTMLInputElement>;
 
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container);
 		this.events = events;
 		this.form = container;
+		this.inputs = container.querySelectorAll('.form__input');
 		this.errorsElement = ensureElement<HTMLElement>('.form__errors', container);
 		this.submitButton = ensureElement<HTMLButtonElement>('button[type=submit]', container);
 
@@ -30,7 +32,7 @@ export class Form<T> extends Component<T & IFormData> implements IForm {
 
 		this.form.addEventListener('submit', (evt: SubmitEvent) => {
 			evt.preventDefault();
-			events.emit(`${viewEvents.formSubmit}:${this.form.name}`);
+			events.emit(`${viewEvents.formSubmit}:${this.form.name}`, this.getInputsValues());
 		});
 	}
 
@@ -46,9 +48,12 @@ export class Form<T> extends Component<T & IFormData> implements IForm {
 		this.submitButton.disabled = !value;
 	}
 
-	get inputsValues() {
+	protected getInputsValues() {
 		const inputsValues: Record<string, string> = {}
-
+		this.inputs.forEach((input) => {
+			inputsValues[input.name] = input.value;
+		});
+		return inputsValues;
 	}
 
 }

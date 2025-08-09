@@ -31,10 +31,6 @@ export class FormOrder extends Form<IFormOrderData> implements IFormOrder {
 		});
 	}
 
-	set address(value: string) {
-		this
-	}
-
 	set isOnlineOrCash(value: boolean) {
 		if (value) {
 			this.onlineButton.classList.add('button_alt-active');
