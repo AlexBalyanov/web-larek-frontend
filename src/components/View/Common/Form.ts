@@ -1,7 +1,7 @@
 import { Component } from '../../base/Component';
 import { IForm } from '../../../types';
 import { IEvents } from '../../base/events';
-import { ensureAllElements, ensureElement } from '../../../utils/utils';
+import { ensureElement } from '../../../utils/utils';
 import { viewEvents } from '../../../utils/constants';
 
 interface IFormData {
@@ -24,10 +24,8 @@ export class Form<T> extends Component<T & IFormData> implements IForm {
 		this.errorsElement = ensureElement<HTMLElement>('.form__errors', container);
 		this.submitButton = ensureElement<HTMLButtonElement>('button[type=submit]', container);
 
-		this.form.addEventListener('input', (evt: Event) => {
-			const input = evt.target as HTMLInputElement;
-			const value = input.value;
-			this.onInputChange(value);
+		this.form.addEventListener('input', () => {
+			this.onInputChange();
 		});
 
 		this.form.addEventListener('submit', (evt: SubmitEvent) => {
@@ -36,8 +34,8 @@ export class Form<T> extends Component<T & IFormData> implements IForm {
 		});
 	}
 
-	protected onInputChange(value: string) {
-		this.events.emit(`${viewEvents.formInput}:${this.form.name}`, {value});
+	protected onInputChange() {
+		this.events.emit(`${viewEvents.formInput}:${this.form.name}`, this.getInputsValues());
 	}
 
 	set errors(value: string) {
@@ -55,5 +53,4 @@ export class Form<T> extends Component<T & IFormData> implements IForm {
 		});
 		return inputsValues;
 	}
-
 }

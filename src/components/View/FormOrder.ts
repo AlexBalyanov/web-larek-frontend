@@ -20,7 +20,7 @@ export class FormOrder extends Form<IFormOrderData> implements IFormOrder {
 		super(container, events);
 		this.cashButton = ensureElement<HTMLInputElement>('.button_alt[name=cash]', container);
 		this.onlineButton = ensureElement<HTMLInputElement>('.button_alt[name=card]', container);
-		this.addressInputElement = ensureElement<HTMLInputElement>('.form__input', container);
+		this.addressInputElement = ensureElement<HTMLInputElement>('input[name=address]', container);
 
 		this.cashButton.addEventListener('click', ()=> {
 			events.emit(viewEvents.formOrderCash);
@@ -29,6 +29,10 @@ export class FormOrder extends Form<IFormOrderData> implements IFormOrder {
 		this.onlineButton.addEventListener('click', ()=> {
 			events.emit(viewEvents.formOrderOnline);
 		});
+	}
+
+	set address(value: string) {
+		this.addressInputElement.value = value;
 	}
 
 	set isOnlineOrCash(value: boolean) {

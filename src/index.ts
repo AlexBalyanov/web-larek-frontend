@@ -20,6 +20,7 @@ import { Basket } from './components/View/Basket';
 import { BasketItem } from './components/View/BasketItem';
 import { FormOrder } from './components/View/FormOrder';
 import { UserData } from './components/Models/UserData';
+import { FormContacts } from './components/View/FormContacts';
 
 const successTemplate = ensureElement<HTMLTemplateElement>('#success');
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
@@ -135,10 +136,10 @@ events.on(viewEvents.basketOrder, () => {
 		userData.setUserData({payment: 'cash'});
 	});
 
-	events.on(viewEvents.formOrderInput, (data: {value: string}) => {
-		const isDataValid = userData.checkUserValidation(data.value);
+	events.on(viewEvents.formOrderInput, (data: {address: string}) => {
+		const isAddressValid = userData.checkUserValidation(data.address);
 
-		if (isDataValid) {
+		if (isAddressValid) {
 			formOrder.render({
 				valid: true,
 				errors: ''
@@ -153,6 +154,33 @@ events.on(viewEvents.basketOrder, () => {
 
 	events.on(viewEvents.formOrderSubmit, (data: {address: string}) => {
 		userData.setUserData({address: data.address});
+	});
+});
+
+events.on(viewEvents.formOrderSubmit, () => {
+	const formContacts = new FormContacts(cloneTemplate(contactsFormTemplate), events);
+	const renderedFormContacts = formContacts.render({valid: false});
+	modal.render({content: renderedFormContacts});
+
+	events.on(viewEvents.formContactsInput, (data: {email: string, phone: string}) => {
+		const isEmailValid = userData.checkUserValidation(data.email);
+		const isPhoneValid = userData.checkUserValidation(data.phone);
+
+		if (isEmailValid && isPhoneValid) {
+			formContacts.render({
+				valid: true,
+				errors: ''
+			});
+		} else {
+			formContacts.render({
+				valid: false,
+				errors: ''
+			});
+		}
+	});
+
+	events.on(viewEvents.formContactsSubmit, (data: {email: string, phone: string}) => {
+		userData.setUserData({email: data.email, phone: data.phone});
 	});
 });
 
