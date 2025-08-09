@@ -122,7 +122,7 @@ events.on(viewEvents.basketOpen, () => {
 
 events.on(viewEvents.basketOrder, () => {
 	const formOrder = new FormOrder(cloneTemplate(orderFormTemplate), events);
-	const renderedFormOrder = formOrder.render();
+	const renderedFormOrder = formOrder.render({valid: false});
 	modal.render({content: renderedFormOrder});
 
 	events.on(viewEvents.formOrderOnline, () => {
@@ -134,5 +134,27 @@ events.on(viewEvents.basketOrder, () => {
 		formOrder.render({isOnlineOrCash: false});
 		userData.setUserData({payment: 'cash'});
 	});
+
+	events.on(viewEvents.formOrderInput, (data: {value: string}) => {
+		const isDataValid = userData.checkUserValidation(data.value);
+
+		if (isDataValid) {
+			formOrder.render({
+				valid: true,
+				errors: ''
+			});
+		} else {
+			formOrder.render({
+				valid: false,
+				errors: 'Необходимо указать адрес'
+			});
+		}
+	});
+
+	events.on(viewEvents.formOrderSubmit, () => {
+
+	});
 });
+
+
 

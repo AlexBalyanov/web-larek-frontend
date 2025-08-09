@@ -14,8 +14,8 @@ export class UserData implements IUserData {
 		this.events = events;
 	}
 
-	checkUserValidation(): boolean {
-		return false;
+	checkUserValidation(inputValue: string) {
+		return !!inputValue;
 	}
 
 	getUserData(): IUser {

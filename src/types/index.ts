@@ -28,7 +28,7 @@ export interface IUserData {
 	// events: IEvents;
 	setUserData(data: Partial<IUser>): void;
 	getUserData(): IUser;
-	checkUserValidation(): boolean;
+	checkUserValidation(inputValue: string): boolean;
 }
 
 export interface IBasketData {

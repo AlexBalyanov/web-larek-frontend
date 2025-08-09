@@ -29,6 +29,10 @@ export enum viewEvents {
 	basketOrder = 'basket:order',
 	basketOpen = 'basket:open',
 	basketDelete = 'basket:delete',
+	formSubmit = 'formSubmit',
+	formOrderSubmit = 'formSubmit:order',
+	formInput = 'formInput',
+	formOrderInput = 'formInput:order',
 	formOrderOnline = 'formOrder:online',
 	formOrderCash = 'formOrder:cash',
 }
