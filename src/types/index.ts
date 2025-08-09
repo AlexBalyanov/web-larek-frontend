@@ -150,6 +150,11 @@ export interface IOrderData {
 	items: string[];
 }
 
+export interface ISuccessOrder {
+	id: string;
+	total: number;
+}
+
 export interface IApi {
 	baseUrl: string;
 	get<T>(uri: string): Promise<T>;

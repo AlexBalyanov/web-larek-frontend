@@ -13,7 +13,7 @@ import { Gallery } from './components/View/Gallery';
 import { GalleryItem } from './components/View/GalleryItem';
 import { Modal } from './components/View/Common/Modal';
 import { PreviewItem } from './components/View/PreviewItem';
-import { IProduct } from './types';
+import { IProduct, ISuccessOrder } from './types';
 import { BasketData } from './components/Models/BasketData';
 import { Header } from './components/View/Header';
 import { Basket } from './components/View/Basket';
@@ -21,6 +21,7 @@ import { BasketItem } from './components/View/BasketItem';
 import { FormOrder } from './components/View/FormOrder';
 import { UserData } from './components/Models/UserData';
 import { FormContacts } from './components/View/FormContacts';
+import { Success } from './components/View/Success';
 
 const successTemplate = ensureElement<HTMLTemplateElement>('#success');
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
@@ -151,13 +152,11 @@ events.on(viewEvents.basketOrder, () => {
 			});
 		}
 	});
-
-	events.on(viewEvents.formOrderSubmit, (data: {address: string}) => {
-		userData.setUserData({address: data.address});
-	});
 });
 
-events.on(viewEvents.formOrderSubmit, () => {
+events.on(viewEvents.formOrderSubmit, (data: {address: string}) => {
+	userData.setUserData({address: data.address});
+
 	const formContacts = new FormContacts(cloneTemplate(contactsFormTemplate), events);
 	const renderedFormContacts = formContacts.render({valid: false});
 	modal.render({content: renderedFormContacts});
@@ -178,10 +177,35 @@ events.on(viewEvents.formOrderSubmit, () => {
 			});
 		}
 	});
+});
 
-	events.on(viewEvents.formContactsSubmit, (data: {email: string, phone: string}) => {
-		userData.setUserData({email: data.email, phone: data.phone});
+events.on(viewEvents.formContactsSubmit, (data: {email: string, phone: string}) => {
+	userData.setUserData({email: data.email, phone: data.phone});
+
+	const success = new Success(cloneTemplate(successTemplate), events);
+	const userOrderData = userData.getUserData();
+	const totalPrice = basketData.getProductsPrice();
+	const basketProductsIds = basketData.getProductsList().map((product) => {
+		return product.id;
 	});
+
+	const orderData = {
+		...userOrderData,
+		total: totalPrice,
+		items: basketProductsIds
+	}
+
+	api.sendOrder(orderData)
+		.then((data: ISuccessOrder) => {
+			const renderedSuccess = success.render({totalPrice: data.total});
+			modal.render({content: renderedSuccess});
+		})
+		.catch(err => console.error(err));
+});
+
+events.on(viewEvents.successButtonPressed, () => {
+	modal.close();
+	basketData.clearBasket();
 });
 
 

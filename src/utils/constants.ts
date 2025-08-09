@@ -37,4 +37,5 @@ export enum viewEvents {
 	formOrderCash = 'formOrder:cash',
 	formContactsSubmit = 'formSubmit:contacts',
 	formContactsInput = 'formInput:contacts',
+	successButtonPressed = 'success:pressed'
 }

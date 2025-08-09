@@ -1,4 +1,4 @@
-import { IProduct } from '../../types';
+import { IOrderData, IProduct, ISuccessOrder } from '../../types';
 import { Api, ApiListResponse } from '../base/api';
 
 export class AppApi extends Api {
@@ -16,5 +16,10 @@ export class AppApi extends Api {
 				image: this.cdn + item.image
 			}))
 		);
+	}
+
+	sendOrder(data: IOrderData): Promise<ISuccessOrder> {
+		return this.post<ISuccessOrder>('/order', data, 'POST')
+			.then((res: ISuccessOrder) => res);
 	}
 }
