@@ -101,6 +101,19 @@ events.on(viewEvents.productBuy, (data: IProduct) => {
 
 events.on(modelEvents.basketChanged, (data: IProduct[]) => {
 	header.render({counter: data.length});
+
+	const basketArray = basketData.getProductsList().map((product) => {
+		const basketItem = new BasketItem(cloneTemplate(cardBasketTemplate), events);
+		return basketItem.render(product);
+	});
+	const totalPrice = basketData.getProductsPrice();
+	const isEmptyBasket = basketData.getProductsList().length !== 0;
+
+	basket.render({
+		content: basketArray,
+		totalPrice: totalPrice,
+		valid: isEmptyBasket
+	});
 });
 
 events.on(viewEvents.basketOpen, () => {
@@ -109,7 +122,7 @@ events.on(viewEvents.basketOpen, () => {
 		return basketItem.render(product);
 	});
 
-	const renderedBasketItem = basket.render({content: basketArray});
+	const renderedBasketContent = basket.render({content: basketArray});
 
 	if (basketData.getProductsList().length === 0) {
 		basket.render({valid: false});
@@ -118,9 +131,13 @@ events.on(viewEvents.basketOpen, () => {
 		basket.render({totalPrice: totalPrice, valid: true});
 	}
 
-	modal.render({content: renderedBasketItem});
+	modal.render({content: renderedBasketContent});
 	modal.open();
 });
+
+events.on(viewEvents.basketDelete, (data: IProduct) => {
+	basketData.deleteFromBasket(data.id);
+})
 
 events.on(viewEvents.basketOrder, () => {
 	const formOrder = new FormOrder(cloneTemplate(orderFormTemplate), events);
@@ -204,8 +221,8 @@ events.on(viewEvents.formContactsSubmit, (data: {email: string, phone: string}) 
 });
 
 events.on(viewEvents.successButtonPressed, () => {
-	modal.close();
 	basketData.clearBasket();
+	modal.close();
 });
 
 

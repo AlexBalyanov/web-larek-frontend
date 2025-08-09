@@ -19,7 +19,7 @@ export class BasketItem extends ProductItem<IBasketItemData> implements IBasketI
 		this.deleteButton = ensureElement<HTMLButtonElement>('.basket__item-delete', container);
 
 		this.deleteButton.addEventListener('click', () => {
-			events.emit(viewEvents.basketDelete);
+			events.emit(viewEvents.basketDelete, this);
 		});
 	}
 }

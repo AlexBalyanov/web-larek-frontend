@@ -38,7 +38,7 @@ export interface IBasketData {
 	getProductsCount(): number;
 	getProductsPrice(): number;
 	addToBasket(product: IProduct): void;
-	deleteFromBasket(product: IProduct): void;
+	deleteFromBasket(id: string): void;
 	clearBasket(): void;
 	isProductInBasket(id: string): boolean;
 }

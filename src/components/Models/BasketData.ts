@@ -28,8 +28,8 @@ export class BasketData implements IBasketData {
 		this.events.emit(modelEvents.basketChanged, this.products);
 	}
 
-	deleteFromBasket(product: IProduct) {
-		this.products.filter((item) => item !== product);
+	deleteFromBasket(id: string) {
+		this.products = this.products.filter((item) => item.id !== id);
 		this.events.emit(modelEvents.basketChanged, this.products);
 	}
 
