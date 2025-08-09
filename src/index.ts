@@ -104,7 +104,11 @@ events.on(modelEvents.basketChanged, (data: IProduct[]) => {
 
 	const basketArray = basketData.getProductsList().map((product) => {
 		const basketItem = new BasketItem(cloneTemplate(cardBasketTemplate), events);
-		return basketItem.render(product);
+		const index = basketData.getProductsList().indexOf(product) + 1;
+		return basketItem.render({
+			...product,
+			index: index
+		});
 	});
 	const totalPrice = basketData.getProductsPrice();
 	const isEmptyBasket = basketData.getProductsList().length !== 0;
@@ -117,21 +121,10 @@ events.on(modelEvents.basketChanged, (data: IProduct[]) => {
 });
 
 events.on(viewEvents.basketOpen, () => {
-	const basketArray = basketData.getProductsList().map((product) => {
-		const basketItem = new BasketItem(cloneTemplate(cardBasketTemplate), events);
-		return basketItem.render(product);
-	});
+	const isEmptyBasket = basketData.getProductsList().length !== 0;
+	const renderedBasket = basket.render({valid: isEmptyBasket});
 
-	const renderedBasketContent = basket.render({content: basketArray});
-
-	if (basketData.getProductsList().length === 0) {
-		basket.render({valid: false});
-	} else {
-		const totalPrice = basketData.getProductsPrice();
-		basket.render({totalPrice: totalPrice, valid: true});
-	}
-
-	modal.render({content: renderedBasketContent});
+	modal.render({content: renderedBasket});
 	modal.open();
 });
 

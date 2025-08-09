@@ -128,6 +128,7 @@ export interface IPreviewItem {
 
 export interface IBasketItem {
 	// deleteButton: HTMLButtonElement;
+	set index(value: number)
 }
 
 export interface IHeader {
