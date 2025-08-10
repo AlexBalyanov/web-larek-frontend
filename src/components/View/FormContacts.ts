@@ -11,7 +11,7 @@ interface IFormContactsData {
 export class FormContacts extends Form<IFormContactsData> implements IFormContacts {
 	protected emailInputElement: HTMLInputElement;
 	protected phoneInputElement: HTMLInputElement;
-	events: IEvents;
+	protected events: IEvents;
 
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container, events);

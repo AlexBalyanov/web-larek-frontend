@@ -14,7 +14,7 @@ export class Basket extends Component<IBasketViewData> implements IBasketView {
 	protected contentElement: HTMLElement;
 	protected orderButtonElement: HTMLButtonElement;
 	protected totalPriceElement: HTMLElement;
-	events: IEvents;
+	protected events: IEvents;
 
 	constructor(container: HTMLElement, events: IEvents) {
 		super(container);

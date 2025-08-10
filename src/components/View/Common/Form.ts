@@ -11,10 +11,10 @@ interface IFormData {
 
 export class Form<T> extends Component<T & IFormData> implements IForm {
 	protected form: HTMLFormElement;
+	protected inputs: NodeListOf<HTMLInputElement>;
 	protected errorsElement: HTMLElement;
 	protected submitButton: HTMLButtonElement;
 	protected events: IEvents;
-	protected inputs: NodeListOf<HTMLInputElement>;
 
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container);

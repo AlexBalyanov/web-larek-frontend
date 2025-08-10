@@ -9,9 +9,9 @@ interface IModalSuccessData {
 }
 
 export class Success extends Component<IModalSuccessData> implements ISuccess {
-	successCloseButton: HTMLButtonElement;
-	totalPriceElement: HTMLElement;
-	events: IEvents;
+	protected successCloseButton: HTMLButtonElement;
+	protected totalPriceElement: HTMLElement;
+	protected events: IEvents;
 
 	constructor(container: HTMLElement, events: IEvents) {
 		super(container);
