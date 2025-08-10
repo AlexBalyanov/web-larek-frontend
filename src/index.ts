@@ -47,13 +47,19 @@ const galleryContainer = new Gallery(galleryContainerElement, events);
 const modal = new Modal(modalElement, events);
 const basket = new Basket(cloneTemplate(basketTemplate), events);
 
-events.onAll(({eventName, data}) => {
-	console.log(eventName, data);
-});
 
 api.getProducts()
 	.then((products) => {
-		productsData.setProducts(products);
+
+		const svgToPngArray = products.map((product) => {
+			const modifiedImage = product.image.replace('svg', 'png');
+			return {
+				...product,
+				image: modifiedImage,
+			}
+		});
+
+		productsData.setProducts(svgToPngArray);
 		events.emit(modelEvents.productsSaved)
 	})
 	.catch((err) => {
