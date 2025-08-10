@@ -66,6 +66,13 @@ events.on(viewEvents.modalOpen, () => {
 
 events.on(viewEvents.modalClose, () => {
 	page.classList.remove('page__wrapper_locked');
+
+	userData.setUserData({
+		payment: '',
+		email: '',
+		phone: '',
+		address: '',
+	});
 });
 
 events.on(modelEvents.productsSaved, () => {
@@ -137,29 +144,58 @@ events.on(viewEvents.basketOrder, () => {
 	const renderedFormOrder = formOrder.render({valid: false});
 	modal.render({content: renderedFormOrder});
 
-	events.on(viewEvents.formOrderOnline, () => {
+	events.on(viewEvents.formOrderOnline, (data: {address: string}) => {
+		const isAddressValid = userData.checkUserValidation(data.address);
+
+		if (!isAddressValid) {
+			formOrder.render({errors: 'Необходимо указать адрес'});
+		} else {
+			formOrder.render({
+				valid: true,
+				errors: ''
+			});
+		}
+
 		formOrder.render({isOnlineOrCash: true});
 		userData.setUserData({payment: 'online'});
 	});
 
-	events.on(viewEvents.formOrderCash, () => {
+	events.on(viewEvents.formOrderCash, (data: {address: string}) => {
+		const isAddressValid = userData.checkUserValidation(data.address);
+
+		if (!isAddressValid) {
+			formOrder.render({errors: 'Необходимо указать адрес'});
+		} else {
+			formOrder.render({
+				valid: true,
+				errors: ''
+			});
+		}
+
 		formOrder.render({isOnlineOrCash: false});
 		userData.setUserData({payment: 'cash'});
 	});
 
 	events.on(viewEvents.formOrderInput, (data: {address: string}) => {
 		const isAddressValid = userData.checkUserValidation(data.address);
+		const isPaymentValid = userData.getUserData().payment !== '';
 
-		if (isAddressValid) {
-			formOrder.render({
-				valid: true,
-				errors: ''
-			});
-		} else {
-			formOrder.render({
-				valid: false,
-				errors: 'Необходимо указать адрес'
-			});
+		switch (isAddressValid && isPaymentValid) {
+			case isAddressValid && !isPaymentValid:
+				formOrder.render({
+					valid: false,
+					errors: 'Необходимо указать адрес'
+				}); break
+			case !isAddressValid && isPaymentValid:
+				formOrder.render({
+					valid: false,
+					errors: 'Необходимо выбрать способ оплаты'
+				}); break
+			default:
+				formOrder.render({
+					valid: true,
+					errors: ''
+				});
 		}
 	});
 });

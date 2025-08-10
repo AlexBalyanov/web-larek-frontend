@@ -23,11 +23,11 @@ export class FormOrder extends Form<IFormOrderData> implements IFormOrder {
 		this.addressInputElement = ensureElement<HTMLInputElement>('input[name=address]', container);
 
 		this.cashButton.addEventListener('click', ()=> {
-			events.emit(viewEvents.formOrderCash);
+			events.emit(viewEvents.formOrderCash, {address: this.addressInputElement.value});
 		});
 
 		this.onlineButton.addEventListener('click', ()=> {
-			events.emit(viewEvents.formOrderOnline);
+			events.emit(viewEvents.formOrderOnline, {address: this.addressInputElement.value});
 		});
 	}
 
