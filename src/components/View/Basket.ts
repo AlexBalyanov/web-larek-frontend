@@ -37,6 +37,6 @@ export class Basket extends Component<IBasketViewData> implements IBasketView {
 	}
 
 	set totalPrice(value: number) {
-		this.setText(this.totalPriceElement, value);
+		this.setText(this.totalPriceElement, `${value} синапсов`);
 	}
 }
