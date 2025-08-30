@@ -1,7 +1,7 @@
 import { Component } from '../base/Component';
 import { IBasketView } from '../../types';
 import { IEvents } from '../base/events';
-import { ensureElement } from '../../utils/utils';
+import { createElement, ensureElement } from '../../utils/utils';
 import { viewEvents } from '../../utils/constants';
 
 interface IBasketViewData {
@@ -29,11 +29,15 @@ export class Basket extends Component<IBasketViewData> implements IBasketView {
 	}
 
 	set valid(value: boolean) {
-		this.orderButtonElement.disabled = !value;
+		this.setDisabled(this.orderButtonElement, !value);
 	}
 
 	set content(items: HTMLElement[]) {
-		this.contentElement.replaceChildren(...items);
+		if (items.length) {
+			this.contentElement.replaceChildren(...items);
+		} else {
+			this.contentElement.replaceChildren(createElement('p', {textContent: 'Корзина пуста'}))
+		}
 	}
 
 	set totalPrice(value: number) {
