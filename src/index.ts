@@ -195,6 +195,8 @@ events.on(viewEvents.formOrderSubmit, () => {
 	modal.render({content: renderedFormContacts});
 
 	events.on(viewEvents.formContactsInput, (data: {email: string, phone: string}) => {
+		userData.setUserData({email: data.email, phone: data.phone});
+
 		const isEmailValid = userData.checkUserValidation(data.email);
 		const isPhoneValid = userData.checkUserValidation(data.phone);
 		const isValid = isEmailValid && isPhoneValid;
@@ -206,8 +208,7 @@ events.on(viewEvents.formOrderSubmit, () => {
 	});
 });
 
-events.on(viewEvents.formContactsSubmit, (data: {email: string, phone: string}) => {
-	userData.setUserData({email: data.email, phone: data.phone});
+events.on(viewEvents.formContactsSubmit, () => {
 
 	const success = new Success(cloneTemplate(successTemplate), events);
 	const userOrderData = userData.getUserData();
