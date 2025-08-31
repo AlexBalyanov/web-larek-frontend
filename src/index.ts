@@ -151,63 +151,44 @@ events.on(viewEvents.basketOrder, () => {
 	modal.render({content: renderedFormOrder});
 
 	events.on(viewEvents.formOrderOnline, (data: {address: string}) => {
-		const isAddressValid = userData.checkUserValidation(data.address);
-
-		if (!isAddressValid) {
-			formOrder.render({errors: 'Необходимо указать адрес'});
-		} else {
-			formOrder.render({
-				valid: true,
-				errors: ''
-			});
-		}
-
 		formOrder.render({isOnlineOrCash: true});
 		userData.setUserData({payment: 'online'});
+
+		const isValid = userData.checkUserValidation(data.address);
+
+		formOrder.render({
+			valid: isValid,
+			errors: userData.getErrorMessage()
+		});
 	});
 
 	events.on(viewEvents.formOrderCash, (data: {address: string}) => {
-		const isAddressValid = userData.checkUserValidation(data.address);
-
-		if (!isAddressValid) {
-			formOrder.render({errors: 'Необходимо указать адрес'});
-		} else {
-			formOrder.render({
-				valid: true,
-				errors: ''
-			});
-		}
-
 		formOrder.render({isOnlineOrCash: false});
 		userData.setUserData({payment: 'cash'});
+
+		const isValid = userData.checkUserValidation(data.address);
+
+		formOrder.render({
+			valid: isValid,
+			errors: userData.getErrorMessage()
+		});
 	});
 
 	events.on(viewEvents.formOrderInput, (data: {address: string}) => {
+		userData.setUserData({address: data.address});
+
 		const isAddressValid = userData.checkUserValidation(data.address);
 		const isPaymentValid = userData.getUserData().payment !== '';
+		const isValid = isAddressValid && isPaymentValid;
 
-		switch (isAddressValid && isPaymentValid) {
-			case isAddressValid && !isPaymentValid:
-				formOrder.render({
-					valid: false,
-					errors: 'Необходимо указать адрес'
-				}); break
-			case !isAddressValid && isPaymentValid:
-				formOrder.render({
-					valid: false,
-					errors: 'Необходимо выбрать способ оплаты'
-				}); break
-			default:
-				formOrder.render({
-					valid: true,
-					errors: ''
-				});
-		}
+		formOrder.render({
+			valid: isValid,
+			errors: userData.getErrorMessage()
+		});
 	});
 });
 
-events.on(viewEvents.formOrderSubmit, (data: {address: string}) => {
-	userData.setUserData({address: data.address});
+events.on(viewEvents.formOrderSubmit, () => {
 
 	const formContacts = new FormContacts(cloneTemplate(contactsFormTemplate), events);
 	const renderedFormContacts = formContacts.render({valid: false});
@@ -216,18 +197,12 @@ events.on(viewEvents.formOrderSubmit, (data: {address: string}) => {
 	events.on(viewEvents.formContactsInput, (data: {email: string, phone: string}) => {
 		const isEmailValid = userData.checkUserValidation(data.email);
 		const isPhoneValid = userData.checkUserValidation(data.phone);
+		const isValid = isEmailValid && isPhoneValid;
 
-		if (isEmailValid && isPhoneValid) {
-			formContacts.render({
-				valid: true,
-				errors: ''
-			});
-		} else {
-			formContacts.render({
-				valid: false,
-				errors: ''
-			});
-		}
+		formContacts.render({
+			valid: isValid,
+			errors: userData.getErrorMessage()
+		});
 	});
 });
 

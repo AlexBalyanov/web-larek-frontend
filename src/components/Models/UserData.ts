@@ -8,6 +8,7 @@ export class UserData implements IUserData {
 		phone: '',
 		address: '',
 	}
+	protected errorMessage: string;
 	protected events: IEvents;
 
 	constructor(events: IEvents) {
@@ -15,11 +16,26 @@ export class UserData implements IUserData {
 	}
 
 	checkUserValidation(inputValue: string) {
+		const isPayment = this.user.payment !== '';
+
+		this.errorMessage = '';
+
+		if (!isPayment) {
+			this.errorMessage = 'Необходимо выбрать способ оплаты'
+		}
+		if (!this.user.address) {
+			this.errorMessage = 'Необходимо указать адрес'
+		}
+
 		return !!inputValue;
 	}
 
 	getUserData(): IUser {
 		return this.user;
+	}
+
+	getErrorMessage() {
+		return this.errorMessage;
 	}
 
 	setUserData(data: Partial<IUser>) {
