@@ -18,8 +18,8 @@ export class FormOrder extends Form<IFormOrderData> implements IFormOrder {
 
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container, events);
-		this.cashButton = ensureElement<HTMLInputElement>('.button_alt[name=cash]', container);
-		this.onlineButton = ensureElement<HTMLInputElement>('.button_alt[name=card]', container);
+		this.cashButton = ensureElement<HTMLButtonElement>('.button_alt[name=cash]', container);
+		this.onlineButton = ensureElement<HTMLButtonElement>('.button_alt[name=card]', container);
 		this.addressInputElement = ensureElement<HTMLInputElement>('input[name=address]', container);
 
 		this.cashButton.addEventListener('click', ()=> {
